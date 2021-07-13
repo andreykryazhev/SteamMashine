@@ -52,7 +52,7 @@ type
     spZ: single;
     angVelocity, step, velocityStep: integer;
     lastCount, newCount: longint;
-    FPS: word; // количество кадров в секунду
+    FPS: word; // РєРѕР»РёС‡РµСЃС‚РІРѕ РєР°РґСЂРѕРІ РІ СЃРµРєСѓРЅРґСѓ
     { Public declarations }
   end;
 
@@ -119,18 +119,18 @@ begin
 
   glPushMatrix; // B
 
-  // вращение колеса и шатуна (в соответствии с spZ)
+  // РІСЂР°С‰РµРЅРёРµ РєРѕР»РµСЃР° Рё С€Р°С‚СѓРЅР° (РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ spZ)
   glRotate(spZ, 0, 0, 1);
 
-    // прорисовка колеса
+    // РїСЂРѕСЂРёСЃРѕРІРєР° РєРѕР»РµСЃР°
     glPushMatrix; // C     > x, ^ y, * z
 
-    // верхняя и нижняя части, "ободы" колес снаружи, внутри и в центре
+    // РІРµСЂС…РЅВ¤В¤ Рё РЅРёР¶РЅВ¤В¤ С‡Р°СЃС‚Рё, "РѕР±РѕРґС‹" РєРѕР»РµСЃ СЃРЅР°СЂСѓР¶Рё, РІРЅСѓС‚СЂРё Рё РІ С†РµРЅС‚СЂРµ
     for i:=1 to detallavel do
       begin
 
       if stepDraw > sZero then begin
-      // верх
+      // РІРµСЂС…
       x :=  -Pi + i*2*Pi/detallavel + x1;
       y :=  -Pi + i*2*Pi/detallavel + y1;
 
@@ -146,7 +146,7 @@ begin
       end;
 
       if stepDraw > sOne then begin
-      // низ
+      // РЅРёР·
       x := -Pi + i*2*Pi/detallavel + x1;
       y := -Pi + i*2*Pi/detallavel + y1;
 
@@ -161,17 +161,17 @@ begin
       end;
 
       if stepDraw > sTwo then begin
-      // ободы снаружи
+      // РѕР±РѕРґС‹ СЃРЅР°СЂСѓР¶Рё
       x := -Pi + i*2*Pi/detallavel + x1;
       y := -Pi + i*2*Pi/detallavel + y1;
       newX := x + 2*Pi/detallavel;
       newY := y + 2*Pi/detallavel;
 
       glBegin(GL_TRIANGLE_STRIP);
-        // ставим нормаль для возможности применения освещения
-        // можно так
+        // СЃС‚Р°РІРёРј РЅРѕСЂРјР°Р»СЊ РґР»В¤ РІРѕР·РјРѕР¶РЅРѕСЃС‚Рё РїСЂРёРјРµРЅРµРЅРёВ¤ РѕСЃРІРµС‰РµРЅРёВ¤
+        // РјРѕР¶РЅРѕ С‚Р°Рє
         // glNormal3f(cos(x), sin(y), 0)
-        // но так вроде правильнее
+        // РЅРѕ С‚Р°Рє РІСЂРѕРґРµ РїСЂР°РІРёР»СЊРЅРµРµ
         glNormal3f(cos((newX + x)/2), sin((newY + y)/2), 0);
         glVertex3f( radiusBig * cos(x), radiusBig * sin(y), 0 );
         glVertex3f( radiusBig * cos(x), radiusBig * sin(y), - wheelThick);
@@ -181,7 +181,7 @@ begin
       end;
 
       if stepDraw > sThree then begin
-      // ободы внутри
+      // РѕР±РѕРґС‹ РІРЅСѓС‚СЂРё
       x := -Pi + i*2*Pi/detallavel + x1;
       y := -Pi + i*2*Pi/detallavel  + y1;
       newX := x + 2*Pi/detallavel;
@@ -198,7 +198,7 @@ begin
       end;
 
       if stepDraw > sFour then begin
-      // ободы в центре
+      // РѕР±РѕРґС‹ РІ С†РµРЅС‚СЂРµ
       x := -Pi + i*2*Pi/detallavel + x1;
       y := -Pi + i*2*Pi/detallavel + y1;
       newX := x + 2*Pi/detallavel;
@@ -217,7 +217,7 @@ begin
       end;
 
       if stepDraw > sFive then begin
-      // верх колеса в центре
+      // РІРµСЂС… РєРѕР»РµСЃР° РІ С†РµРЅС‚СЂРµ
       glBegin(GL_TRIANGLE_FAN);
         glNormal3f(0, 0, 1);
         //glVertex3f(wheelX, wheelY, wheelZ);
@@ -230,7 +230,7 @@ begin
       end;
 
       if stepDraw > sSix then begin
-      // низ колеса в центре
+      // РЅРёР· РєРѕР»РµСЃР° РІ С†РµРЅС‚СЂРµ
       glBegin(GL_TRIANGLE_FAN);
         glNormal3f(0, 0, -1);
         //glVertex3f(wheelX, wheelY, wheelZ - wheelThick);
@@ -244,14 +244,14 @@ begin
     //glPopMatrix; !!! }
 
     if stepDraw > sSeven then begin
-    // прорисовка спиц
+    // РїСЂРѕСЂРёСЃРѕРІРєР° СЃРїРёС†
     //glPushMatrix;
     for i:=1 to spokeCount do
       begin
       glPushMatrix; // D
       //glTranslate(wheelX , wheelY, wheelZ);
       glRotate(i*2*180/spokeCount, 0, 0, 1);
-      // верх спицы
+      // РІРµСЂС… СЃРїРёС†С‹
       glBegin(GL_POLYGON);
         glNormal3f(0, 0, 1);
         glVertex3f(radiusCenter - 0.05, -spokeThick, 0);
@@ -259,7 +259,7 @@ begin
         glVertex3f(radiusCenter + 1 + 0.03, spokeThick, 0);
         glVertex3f(radiusCenter + 1 + 0.03, -spokeThick, 0);
       glEnd;
-      // низ спицы
+      // РЅРёР· СЃРїРёС†С‹
       glBegin(GL_POLYGON);
         glNormal3f(0, 0, -1);
         glVertex3f(radiusCenter - 0.05, -spokeThick, 0 - wheelThick);
@@ -267,7 +267,7 @@ begin
         glVertex3f(radiusCenter + 1 + 0.03, spokeThick, 0 - wheelThick);
         glVertex3f(radiusCenter + 1 + 0.03, -spokeThick, 0 - wheelThick);
       glEnd;
-      // первая грань
+      // РїРµСЂРІР°В¤ РіСЂР°РЅСЊ
       glBegin(GL_POLYGON);
         glNormal3f(0, 1, 0);
         glVertex3f(radiusCenter - 0.05, spokeThick, 0);
@@ -275,7 +275,7 @@ begin
         glVertex3f(radiusCenter + 1 + 0.03, spokeThick, 0 - wheelThick);
         glVertex3f(radiusCenter + 1 + 0.03, spokeThick, 0);
       glEnd;
-      // вторая грань
+      // РІС‚РѕСЂР°В¤ РіСЂР°РЅСЊ
       glBegin(GL_POLYGON);
         glNormal3f(0, -1, 0);
         glVertex3f(radiusCenter - 0.05, -spokeThick, 0);
@@ -292,45 +292,45 @@ begin
 glPopMatrix; // B
 
     if stepDraw = sEight then begin
-    // прорисовка шатуна и его сцепки с колесом, а также цилиндра
-    // считаем нужные нам углы, чтобы шатун был как будто привязан к оси Y
+    // РїСЂРѕСЂРёСЃРѕРІРєР° С€Р°С‚СѓРЅР° Рё РµРіРѕ СЃС†РµРїРєРё СЃ РєРѕР»РµСЃРѕРј, Р° С‚Р°РєР¶Рµ С†РёР»РёРЅРґСЂР°
+    // СЃС‡РёС‚Р°РµРј РЅСѓР¶РЅС‹Рµ РЅР°Рј СѓРіР»С‹, С‡С‚РѕР±С‹ С€Р°С‚СѓРЅ Р±С‹Р» РєР°Рє Р±СѓРґС‚Рѕ РїСЂРёРІВ¤Р·Р°РЅ Рє РѕСЃРё Y
     radius := (radiusBig + radiusSmall)/5;
     sinFi := radius * sin((90+spZ)*Pi/180) / spokeLenght;
     Fi := arccos(sinFi);
-    Fi := Fi*180/Pi;                    //  РАДИУС ВРАЩЕНИЯ (radius)
+    Fi := Fi*180/Pi;                    //  вЂ“СЖ’В»вЂќвЂ” В¬вЂ“ССћв‰€РЊВ»СЏ (radius)
     alpha := 90 - Fi;                   //  ___-----===/
-                                        //  |spZ+90   / альфа
+                                        //  |spZ+90   / Р°Р»СЊС„Р°
                                         //  |        /
-    // начинаем рисовать                //  |       /
+    // РЅР°С‡РёРЅР°РµРј СЂРёСЃРѕРІР°С‚СЊ                //  |       /
     glPushMatrix; // E                  //  |      /
-      glRotate(spZ, 0, 0, 1);           //  |     / ДЛИНА
-      glTranslate(radius, 0, 0.2);      //  |    /  ШАТУНА
+      glRotate(spZ, 0, 0, 1);           //  |     / Ж’Р‹В»РЊС
+      glTranslate(radius, 0, 0.2);      //  |    /  РЋСвЂњвЂќРЊС
                                         //  |   /   (spokeLenght)
                                         //  |  /
                                         //  | /
                                         //  |/
-                                        //  / фи
-     // прорисовка сцепки
+                                        //  / С„Рё
+     // РїСЂРѕСЂРёСЃРѕРІРєР° СЃС†РµРїРєРё
      glPushMatrix; // F
        glTranslate(0, 0, -0.2);
        gluCylinder(quadHitch, 0.05, 0.05, 0.35, 8, 1);
      glPopMatrix;  // F 
 
      //glPushMatrix;
-      // прорисовка шатуна
+      // РїСЂРѕСЂРёСЃРѕРІРєР° С€Р°С‚СѓРЅР°
       glRotate(90, 1, 0, 0);
-      glRotate(-spZ, 0, 1, 0); // сначал шатун ставим строго вертикально
-      glRotate(-alpha, 0, 1, 0); // затем поворачиваем на угол "альфа"
+      glRotate(-spZ, 0, 1, 0); // СЃРЅР°С‡Р°Р» С€Р°С‚СѓРЅ СЃС‚Р°РІРёРј СЃС‚СЂРѕРіРѕ РІРµСЂС‚РёРєР°Р»СЊРЅРѕ
+      glRotate(-alpha, 0, 1, 0); // Р·Р°С‚РµРј РїРѕРІРѕСЂР°С‡РёРІР°РµРј РЅР° СѓРіРѕР» "Р°Р»СЊС„Р°"
       glColor3f(1, 1, 1);
       gluCylinder(quadCylinder, 0.1, 0.1, spokeLenght, detallavel div 2, 1);
 
-      // прорисовка поршня
+      // РїСЂРѕСЂРёСЃРѕРІРєР° РїРѕСЂС€РЅВ¤
       glTranslate(0, 0, spokeLenght);
       glRotate(alpha, 0, 1, 0);
       glColor3f(0, 0, 1);
       gluCylinder(quadPiston, 0.5, 0.5, cylinderLenght, detallavel, 1);
       glRotate(90, 0, 0, 1);
-        // верхняя крышка поршня (нижней нет - её всё равно не видно)
+        // РІРµСЂС…РЅВ¤В¤ РєСЂС‹С€РєР° РїРѕСЂС€РЅВ¤ (РЅРёР¶РЅРµР№ РЅРµС‚ - РµР„ РІСЃР„ СЂР°РІРЅРѕ РЅРµ РІРёРґРЅРѕ)
         glBegin(GL_TRIANGLE_FAN);
           glNormal3f(0, 0, -1);     //
           //glVertex3f(wheelX, wheelY, wheelZ);
@@ -341,21 +341,21 @@ glPopMatrix; // B
             end;
         glEnd;
 
-    glPopMatrix; // E - конец прорисовки шатуна и сцепки
+    glPopMatrix; // E - РєРѕРЅРµС† РїСЂРѕСЂРёСЃРѕРІРєРё С€Р°С‚СѓРЅР° Рё СЃС†РµРїРєРё
     end;
 
-    // прорисовка подставки, "станины" и 2-й сцепки
+    // РїСЂРѕСЂРёСЃРѕРІРєР° РїРѕРґСЃС‚Р°РІРєРё, "СЃС‚Р°РЅРёРЅС‹" Рё 2-Р№ СЃС†РµРїРєРё
     glPushMatrix;
     advY := -((radiusBig + radiusSmall)/5 + spokeLenght + cylinderLenght);
 
     glColor3f(1, 1, 1);
-    // прорисовка сцепки колеса со "станиной"
+    // РїСЂРѕСЂРёСЃРѕРІРєР° СЃС†РµРїРєРё РєРѕР»РµСЃР° СЃРѕ "СЃС‚Р°РЅРёРЅРѕР№"
     glPushMatrix;
       glTranslate(0, 0, -0.7);
       gluCylinder(quadHitch2, 0.3, 0.3, 0.2, detallavel, 1);
     glPopMatrix;
 
-    // прорисовка "станины"
+    // РїСЂРѕСЂРёСЃРѕРІРєР° "СЃС‚Р°РЅРёРЅС‹"
     glBegin(GL_POLYGON);
       glNormal3f(0, 0, 1);
       glVertex3f(-1, advY, -0.7);
@@ -393,7 +393,7 @@ glPopMatrix; // B
     glEnd;
 
     glDisable(GL_LIGHTING);
-    // прорисовка подставки
+    // РїСЂРѕСЂРёСЃРѕРІРєР° РїРѕРґСЃС‚Р°РІРєРё
     glTranslate(0, advY, 0.2);
     glBegin(GL_POLYGON);
       glNormal3f(0, 1, 0);
@@ -406,7 +406,7 @@ glPopMatrix; // B
 
     glEnable(GL_LIGHTING);
     glEnable(GL_LIGHT0);
-    // прорисовка оболочки поршня
+    // РїСЂРѕСЂРёСЃРѕРІРєР° РѕР±РѕР»РѕС‡РєРё РїРѕСЂС€РЅВ¤
     glColor3f(0.5, 0.5, 0.5);
     glRotate(270, 1, 0, 0);
     gluCylinder(quadCasing, 0.515, 0.515, 2.5, detallavel, 1);
@@ -556,7 +556,7 @@ begin
     VK_UP: wheelY := wheelY + 0.1;
     VK_SPACE: mode := not mode;
     VK_RETURN: begin x1 := x1 + 1; y1 := y1 + 1 end;
-    76: light := not light; // свет вкл/выкл
+    76: light := not light; // СЃРІРµС‚ РІРєР»/РІС‹РєР»
     191:
       begin
       if stepDraw = sEight then stepDraw := sZero
@@ -577,7 +577,7 @@ begin
            end
            else Key := ord(#0);
     83: begin
-        switch := not switch; // Старт/Стоп
+        switch := not switch; // вЂ”С‚Р°СЂС‚/вЂ”С‚РѕРї
         if switch then Timer.Enabled := true
         end;
     88: rotateMachineX := rotateMachineX + 2;
@@ -589,12 +589,12 @@ end;
 
 
 procedure Tmainform.TimerTimer(Sender: TObject);
-var StepByStep {пока от монитора не ослеп} : byte;
+var StepByStep {РїРѕРєР° РѕС‚ РјРѕРЅРёС‚РѕСЂР° РЅРµ РѕСЃР»РµРї} : byte;
     str: string[5];
     oldspZ, res: single;
 begin
 
-  // "откючение" двигателя, движение на "выбеге"
+  // "РѕС‚РєСЋС‡РµРЅРёРµ" РґРІРёРіР°С‚РµР»В¤, РґРІРёР¶РµРЅРёРµ РЅР° "РІС‹Р±РµРіРµ"
   if not switch then
     begin
     velocity := 0;
@@ -602,13 +602,13 @@ begin
     if step > velocity then acceleration := false;
     end;
 
-  // ставим скорости ускорения/замедления и "выбега"  
+  // СЃС‚Р°РІРёРј СЃРєРѕСЂРѕСЃС‚Рё СѓСЃРєРѕСЂРµРЅРёВ¤/Р·Р°РјРµРґР»РµРЅРёВ¤ Рё "РІС‹Р±РµРіР°"  
   case switch  of
     true: begin StepByStep := 1; str := 'On' end;
     false: begin StepByStep := 5; str := 'Off' end;
   end;
 
-  // ускоренное или замедленное движение
+  // СѓСЃРєРѕСЂРµРЅРЅРѕРµ РёР»Рё Р·Р°РјРµРґР»РµРЅРЅРѕРµ РґРІРёР¶РµРЅРёРµ
   case acceleration of
     true: if step < velocity then step := step + StepByStep;
     false: if step > velocity then step := step - StepByStep;
